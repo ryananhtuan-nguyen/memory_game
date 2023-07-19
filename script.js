@@ -68,23 +68,21 @@ const cardGenerator = () => {
 
 const checkCards = (evt) => {
   const clickedCard = evt.target
-  clickedCard.classList.add('flipped') //add flipped class when card flipped
+  //add flipped class when card flipped
+  clickedCard.classList.add('flipped')
   const flippedCards = document.querySelectorAll('.flipped')
   const toggleCards = document.querySelectorAll('.toggleCard')
-  console.log(flippedCards)
   //check the cards if matched
   if (flippedCards.length === 2) {
     if (
       flippedCards[0].getAttribute('name') ===
       flippedCards[1].getAttribute('name')
     ) {
-      console.log('match')
       flippedCards.forEach((card) => {
         card.classList.remove('flipped')
         card.style.pointerEvents = 'none'
       })
     } else {
-      console.log('wrong')
       flippedCards.forEach((card) => {
         card.classList.remove('flipped')
         setTimeout(() => card.classList.remove('toggleCard'), 1000)
@@ -94,22 +92,27 @@ const checkCards = (evt) => {
       if (playerLives === 0) restart('You suck!!!')
     }
   }
+
   //check if the player has won
   if (toggleCards.length === 16) {
     restart('Not bad, you won this time')
   }
 }
-//Restart function
+
+//Restart function to reset the game
+//After lives = 0, and text alert
+
 const restart = (text) => {
   //shuffle again
   let cardData = shuffle()
-  playerLives = 6
 
   //add new info into cards
   let faces = document.querySelectorAll('.face')
   let cards = document.querySelectorAll('.card')
+
   //disable click event till the game reseted
   section.style.pointerEvents = 'none'
+
   cardData.forEach((item, index) => {
     //set timeout so it shuffle after ALL cards flipped back
     setTimeout(() => {
@@ -125,8 +128,12 @@ const restart = (text) => {
       section.style.pointerEvents = 'all'
     }, 1000)
   })
+
   //set timeout again so the message appeared after all cards flipped or lives is 0
   setTimeout(() => {
+    //reset Lives & live text content
+    playerLives = 6
+    playerLivesCount.textContent = playerLives
     alert(text)
   }, 200)
 }
